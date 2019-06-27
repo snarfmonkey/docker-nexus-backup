@@ -1,3 +1,8 @@
+# This is a fork of https://github.com/travelaudience/docker-nexus-backup edited very minimally to
+# use AWS s3 instead of google cloud storage.
+# and by minimally i mean like %s/gsutil/aws s3/g
+# I am the greatest sysadmin alive.
+
 # docker-nexus-backup
 
 A container image for backing-up Sonatype Nexus Repository Manager data into GCP Cloud Storage.
@@ -54,19 +59,9 @@ docker run --detach \
            quay.io/travelaudience/docker-nexus-backup:1.4.0
 ```
 
-## Inside Google Container Engine
+## Inside AWS
 
-Your Google Container Engine cluster **must be** created with Cloud Storage read-write
-permissions enabled (`https://www.googleapis.com/auth/devstorage.read_write` scope).
-
-## Outside Google Container Engine
-
-If you're running this image, or any other container image based on this,
-outside GKE you will need to create a [service account](https://cloud.google.com/iam/docs/service-accounts)
-with the "_Storage Object Creator_" and "_Storage Object Viewer_" permissions,
-download the newly furnished private key file in JSON format, mount it in the
-container and specify the mount path using the `CLOUD_IAM_SERVICE_ACCOUNT_KEY_PATH`
-environment variable.
+Use IAM. I use kube2iam, but I'm not the boss of you.
 
 ## Environment Variables
 
@@ -77,7 +72,7 @@ will require no changes.
 
 | Variable                             | Description                                                                                   | Default                                                     |
 |--------------------------------------|-----------------------------------------------------------------------------------------------|-------------------------------------------------------------|
-| `CLOUD_IAM_SERVICE_ACCOUNT_KEY_PATH` | (**Optional**) The path to a service account key file with which to authenticate against GCS. | (empty)                                                     |
+| `CLOUD_IAM_SERVICE_ACCOUNT_KEY_PATH` | (**Optional**) Does nothing.                                                                  | (empty)                                                     |
 | `NEXUS_AUTHORIZATION`                | The authorization header to use when calling the Nexus API.                                   | `Basic YWRtaW46YWRtaW4xMjMK`                                |
 | `NEXUS_BACKUP_DIRECTORY`             | The directory to which the Nexus 'backup-2' task will produce its output.                     | `/nexus-data/backup`                                        |
 | `NEXUS_DATA_DIRECTORY`               | The Nexus data directory.                                                                     | `/nexus-data`                                               |

@@ -35,7 +35,7 @@ function backup {
     sleep "${GRACE_PERIOD}"
 
     echo "==> Attempting to backup the 'default' blobstore."
-    tar c "${NEXUS_DATA_DIRECTORY}/blobs/default/" | gsutil cp - "${TARGET_BUCKET}/${TIMESTAMP}/blobstore.tar"
+    tar c "${NEXUS_DATA_DIRECTORY}/blobs/default/" | aws s3 cp - "${TARGET_BUCKET}/blob_store_backups/${TIMESTAMP}-blobstore.tar"
 
     local EXIT_CODE_1=$?
 
@@ -46,7 +46,7 @@ function backup {
     fi
 
     echo "==> Attempting to backup the Nexus databases."
-    tar c "${NEXUS_BACKUP_DIRECTORY}/" | gsutil cp - "${TARGET_BUCKET}/${TIMESTAMP}/databases.tar"
+    tar c "${NEXUS_BACKUP_DIRECTORY}/" | aws s3 cp - "${TARGET_BUCKET}/database_backups/${TIMESTAMP}-databases.tar"
 
     local EXIT_CODE_2=$?
 

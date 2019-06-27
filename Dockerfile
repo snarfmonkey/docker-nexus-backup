@@ -1,8 +1,6 @@
 FROM alpine:3.8
 # Image used will affectively be 3.8.1 with the security hotfix.
 
-LABEL maintainer devops@travelaudience.com
-
 # The path to the Cloud IAM service account to use when uploading backups.
 ENV CLOUD_IAM_SERVICE_ACCOUNT_KEY_PATH ""
 # The authorization header to use when calling the Nexus API.
@@ -33,6 +31,11 @@ RUN apk add --no-cache --update bash ca-certificates curl inotify-tools python o
  && tar xzf google-cloud-sdk.tar.gz \
  && rm google-cloud-sdk.tar.gz \
  && ./google-cloud-sdk/install.sh --command-completion true --override-components gcloud gsutil --path-update true --quiet --rc-path /root/.bashrc --usage-reporting false
+
+RUN curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip" \
+ && unzip awscli-bundle.zip \
+ && ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws \
+ && rm awscli-bundle.zip
 
 ADD docker-entrypoint.sh /docker-entrypoint.sh
 ADD /scripts/start-repository.groovy /scripts/start-repository.groovy
