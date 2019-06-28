@@ -1,12 +1,12 @@
 This is a fork of https://github.com/travelaudience/docker-nexus-backup edited very minimally to
 use AWS s3 instead of google cloud storage.
-and by minimally i mean like %s/gsutil/aws s3/g.
+And by minimally i mean like %s/gsutil/aws s3/g.
 
-I am the greatest sysadmin alive.
+It is hastily designed as a drop-in replacement for the backup mechanism of the helm chart for Nexus.
 
 # docker-nexus-backup
 
-A container image for backing-up Sonatype Nexus Repository Manager data into GCP Cloud Storage.
+A container image for backing-up Sonatype Nexus Repository Manager data into S3 Cloud Storage.
 
 [![Docker Repository on Quay](https://quay.io/repository/travelaudience/docker-nexus-backup/status "Docker Repository on Quay")](https://quay.io/repository/travelaudience/docker-nexus-backup)
 
@@ -18,7 +18,7 @@ Furthermore, the back-ups are persisted in the local disk alone, meaning if
 the disk is lost, the back-ups are lost too.
 
 This tool addresses these two shortcomings by backing-up the `default` blob
-store and then uploading everything to GCS, including the database back-up
+store and then uploading everything to S3, including the database back-up
 Nexus previously created. This procedure is automatically triggered by
 [`touching`](https://en.wikipedia.org/wiki/Touch_(Unix))ing
 `${NEXUS_BACKUP_DIRECTORY}/.backup`.
@@ -53,7 +53,7 @@ environment variables:
 ```bash
 docker run --detach \
            --env OFFLINE_REPOS="docker-hosted maven-central maven-public maven-releases maven-snapshots" \
-           --env TARGET_BUCKET="gs://my-fancy-bucket/" \
+           --env TARGET_BUCKET="s3://my-fancy-bucket/" \
            --name nexus-backup \
            --volume /path/to/nexus-data:/nexus-data \
            --volume /path/to/nexus-data-backup:/nexus-data/backup \
@@ -79,5 +79,5 @@ will require no changes.
 | `NEXUS_DATA_DIRECTORY`               | The Nexus data directory.                                                                     | `/nexus-data`                                               |
 | `NEXUS_LOCAL_HOST_PORT`              | The host and port at which Nexus can be reached.                                              | `localhost:8081`                                            |
 | `OFFLINE_REPOS`                      | The names of the repositories must be taken down to achieve a consistent backup.              | `maven-central maven-public maven-releases maven-snapshots` |
-| `TARGET_BUCKET`                      | The name of the GCS bucket to which the resulting backups will be uploaded.                   | `gs://nexus-backup`                                         |
+| `TARGET_BUCKET`                      | The name of the S3 bucket to which the resulting backups will be uploaded.                   | `s3://nexus-backup`                                         |
 | `GRACE_PERIOD`                       | The amount of time in seconds to wait between stopping repositories and starting the upload.  | `60`                                                        |
