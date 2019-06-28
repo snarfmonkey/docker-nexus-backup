@@ -8,8 +8,6 @@ It is hastily designed as a drop-in replacement for the backup mechanism of the 
 
 A container image for backing-up Sonatype Nexus Repository Manager data into S3 Cloud Storage.
 
-[![Docker Repository on Quay](https://quay.io/repository/travelaudience/docker-nexus-backup/status "Docker Repository on Quay")](https://quay.io/repository/travelaudience/docker-nexus-backup)
-
 ## Introduction
 
 Nexus Repository Manager can be configured to back-up its internal database on
