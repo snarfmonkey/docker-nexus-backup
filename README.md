@@ -1,7 +1,8 @@
-# This is a fork of https://github.com/travelaudience/docker-nexus-backup edited very minimally to
-# use AWS s3 instead of google cloud storage.
-# and by minimally i mean like %s/gsutil/aws s3/g
-# I am the greatest sysadmin alive.
+This is a fork of https://github.com/travelaudience/docker-nexus-backup edited very minimally to
+use AWS s3 instead of google cloud storage.
+and by minimally i mean like %s/gsutil/aws s3/g.
+
+I am the greatest sysadmin alive.
 
 # docker-nexus-backup
 

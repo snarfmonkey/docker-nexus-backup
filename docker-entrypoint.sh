@@ -187,7 +187,7 @@ fi
 
 if [[ -z "${TARGET_BUCKET}" ]];
 then
-    echo "Target GCS bucket is not defined."
+    echo "Target bucket is not defined."
     exit 1
 fi
 
@@ -197,15 +197,15 @@ then
     exit 1
 fi
 
-if [[ -f "${CLOUD_IAM_SERVICE_ACCOUNT_KEY_PATH}" ]];
-then
-    echo "==> Setting up authentication with the specified service account..."
-    gcloud auth activate-service-account --key-file "${CLOUD_IAM_SERVICE_ACCOUNT_KEY_PATH}" || \
-    {
-        echo "(!) Couldn't activate the specified service account."
-        exit 1
-    }
-fi
+# if [[ -f "${CLOUD_IAM_SERVICE_ACCOUNT_KEY_PATH}" ]];
+# then
+#     echo "==> Setting up authentication with the specified service account..."
+#     gcloud auth activate-service-account --key-file "${CLOUD_IAM_SERVICE_ACCOUNT_KEY_PATH}" || \
+#     {
+#         echo "(!) Couldn't activate the specified service account."
+#         exit 1
+#     }
+# fi
 
 monitor_lock_file &
 
